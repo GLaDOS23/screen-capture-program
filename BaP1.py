@@ -35,12 +35,13 @@ def on_press_w(event):
             stop = 1
         else:
             stop = 0
-        Y = 40
-        X = int(((X2 - X1) * Y) / (Y2 - Y1))
+        Y = 32
+        X = int((((X2 - X1) * Y) / (Y2 - Y1) )*1.5 ) 
 
         X3 =  X2 - X1
         Y3 = Y2 - Y1
-        while stop == 1:
+        #while stop == 1:
+        for i in range(1):
 
                 
             screenshot = pyautogui.screenshot(region=( X1, Y1,  X3, Y3))
@@ -48,8 +49,7 @@ def on_press_w(event):
             screenshot.save('screenshot.png')
 
             image = cv2.imread('screenshot.png')
-            #X = 32
-            #Y = int(((X2 - X1) * Y) / (Y2 - Y1))
+
 
             resized_image = cv2.resize(image, (X, Y))
             gray_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
@@ -60,16 +60,79 @@ def on_press_w(event):
 
             #print(black_white_array)
                     
-
-
             s = '\n'
             for i in black_white_array:
                 #s = ''
                 for i2 in i:
                     if i2 == 0:
-                            s += '#'
-                    if i2 == 1:
-                        s += ' '
+                            s += ' '#'😀'
+      
+                    elif i2 == 1:
+                        s += '#'
+                s += '\n'
+            print(s)
+            time.sleep(0.01)
+
+
+
+    #//////////////////////
+    if event.name == 'd':
+        if stop == 0:
+            stop = 1
+        else:
+            stop = 0
+        Y = 32
+        X = int((((X2 - X1) * Y) / (Y2 - Y1) )*1.5 ) 
+
+        X3 =  X2 - X1
+        Y3 = Y2 - Y1
+        while stop == 1:
+        #for i in range(1):
+
+                
+            screenshot = pyautogui.screenshot(region=( X1, Y1,  X3, Y3))
+
+            screenshot.save('screenshot.png')
+
+            image = cv2.imread('screenshot.png')
+
+
+            resized_image = cv2.resize(image, (X, Y))
+            gray_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
+
+
+                    
+            # Преобразуем в массив NumPy с заданными значениями
+            binary_image = np.zeros_like(gray_image)
+
+            for i in range(gray_image.shape[0]):
+                for j in range(gray_image.shape[1]):
+                    if gray_image[i, j] > 200:
+                        binary_image[i, j] = 0  # белый
+                    elif gray_image[i, j] > 150:
+                        binary_image[i, j] = 1  # светло-серый
+                    elif gray_image[i, j] > 100:
+                        binary_image[i, j] = 2  # темно-серый
+                    else:
+                        binary_image[i, j] = 3  # черный
+
+
+
+            
+
+            s = '\n'
+            for i in binary_image: #black_white_array:
+                #s = ''
+                for i2 in i:
+                    if i2 == 0:
+                            s += ' '#'😀'
+
+                    elif i2 == 1:
+                        s += '*'
+                    elif i2 == 2:
+                        s += ';'       
+                    elif i2 == 3:
+                        s += '#'
                 s += '\n'
             print(s)
             time.sleep(0.01)
